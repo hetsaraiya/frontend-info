@@ -26,7 +26,7 @@ import ApprovedBlogs from "./Components/ApprovedBlogs/ApprovedBlogs";
 
 function App() {
 
-	const [theme, setTheme] = useState("light")
+	const [theme, setTheme] = useState("dark")
 
 	useEffect(() => {
 		if (theme === "dark") {
@@ -51,7 +51,7 @@ function App() {
 				<MobileNavbar />
 				<Routes>
 					<Route index element={<HomePage theme={theme} />} />
-					<Route path="/blog" element={<DetailedBlog theme={theme} />} />
+					<Route path="/blogs" element={<DetailedBlog theme={theme} />} />
 					{/* <Route path="Blog/:title" element={<DetailedBlog />} /> */}
 					{/* <Route path="blogupload/home" element={<home />} /> */}
 					<Route path="/login" element={<Login theme={theme} />} />
@@ -62,13 +62,13 @@ function App() {
 					<Route path="/admin/under-review" element={<UnderReview theme={theme} />} />
 					<Route path="/admin/rejected" element={<RejectedBlogs theme={theme} />} />
 					<Route path="/admin/published" element={<PublishedBlogs theme={theme} />} />
-					<Route path="/admin/draft" element={<Drafts theme={theme} />} />
+					<Route path="/admin/draft" element={<Drafts theme={theme} />} /> 
 					<Route path="/admin/deleted" element={<DeletedBlogs theme={theme} />} />
 					<Route path="/admin/approved" element={<ApprovedBlogs theme={theme} />} />
 					{/* <Route path="admin/login" element={<AdminLogin />} /> */}
 					{/* <Route path="home" element={<Home />} /> */}
 				</Routes>
-				<Footer />
+				<Footer theme={theme} />
 			</Router>
 		</div>
 	);

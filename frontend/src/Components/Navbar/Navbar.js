@@ -1,45 +1,52 @@
 import React, { useState } from "react";
-import { CgClose } from "react-icons/cg";
+import { CgClose, CgList } from "react-icons/cg";
+import list from "../BlogUpload/list.json";
 
-const Navbar = ({ setTheme, theme }) => {
+
+const Navbar = ({ setTheme, theme,props }) => {
+
+	const [search,setSearch] = useState('');
 	const navbarLinks = [
-		["All", "#"],
-		["Cloud", "#"],
-		["Products", "#"],
-		["Mobile", "#"],
-		["Java", "#"],
-		["Big data & Bi", "#"],
-		["Software Devlopment", "#"],
-		["Ai", "#"],
+		["Cars", "#"],
+		["Education", "#"],
+		["Wellness", "#"],
+		["Tech", "#"],
+		["Science", "#"],
+		["News & Culture", "#"],
+		["Money", "#"],
+		["Home", "#"],
 		["Other", "#"],
 	];
 
-	const [inputValue, setInputValue] = useState("");
-	const onChange = (event) => {
-		const newValue = event.target.value;
-		setInputValue(newValue);
-	};
+	console.log(list)
 
 	return (
-		<div className="lg:px-8 px-4 flex items-center justify-between w-full dark:bg-[#101010] bg-white py-2.5">
-			<div className="flex items-center gap-5">
-				<a href="/">
-					<p className="text-2xl text-black dark:text-white">LOGO</p>
+		<div className="lg:px-4 sticky top-0 bg-white overflow-hidden z-50 px-4 flex items-center justify-between  w-full dark:bg-[#101010]  py-4" >
+			<div className="flex  items-center  gap-x-[10rem] gap-3">
+				<a href="/" >
+				<div className="flex flex-row justify-start items-center">
+					<div className="w-40 ">
+					<img src="/static/img/Pruthateknew.png" alt="" />
+					</div>
+					<div>
+					<p className="lg:top-1 pt-0 relative dark:text-white text-[22px] font-Poppins ">.info</p>
+					</div>
+					</div>
 				</a>
-				<ul className="lg:flex flex-row items-center gap-x-5 whitespace-nowrap noscrollbar hidden">
-					{navbarLinks.map((item, index) => (
-						<a href={item[1]}>
+				<ul className="lg:flex flex-row  justify-center  items-center gap-x-5 whitespace-nowrap noscrollbar hidden">
+					{list.map((item, index) => (
+						<a href={item["select"]}>
 							<li
 								key={index}
-								className="text-subtitle cursor-pointer relative after:content-[''] after:w-0 after:h-[2px] after:absolute after:-bottom-[5px] after:left-0 after:bg-gradient-to-r after:from-[#f05225] after:to-[#eea820] after:transition-all after:duration-300 hover:after:w-full"
+								className="text-[16px] cursor-pointer relative after:content-[''] after:w-0 after:h-[2px] after:absolute after:-bottom-[5px] after:left-0 after:bg-gradient-to-r after:from-[#f05225] after:to-[#eea820] after:transition-all after:duration-300 hover:after:w-full"
 							>
-								{item[0]}
+								{item["select"]}
 							</li>
 						</a>
 					))}
 				</ul>
 			</div>
-			<div className="flex items-center gap-5">
+			<div className="flex px-3 items-center gap-5">
 				<div className="cursor-pointer">
 					{theme === "light" ? (
 						<svg
@@ -71,97 +78,7 @@ const Navbar = ({ setTheme, theme }) => {
 						</svg>
 					)}
 				</div>
-				<div className="bg-gradient-to-r from-[#0038ff] via-[#3a86ff] to-[#6dccff] p-[2px] text-lg rounded-lg relative">
-					<div className=" dark:bg-[#101010] bg-white rounded-md px-1 lg:px-3 py-1 flex items-center justify-center gap-x-5">
-						<div className="hidden lg:block" id="searchBox">
-							<input
-								type="text"
-								placeholder="Search"
-								className="lg:bg-transparent dark:bg-[#101010] bg-white rounded-lg pl-2 pr-10 lg:p-0 py-1 lg:py-0 outline-none"
-								value={inputValue}
-								onChange={onChange}
-							/>
-							<CgClose
-								className="lg:hidden absolute right-[6px] top-1/2 -translate-y-1/2 bg-white dark:bg-[#101010]"
-								size={25}
-								color={theme === "dark" ? "#ffffff" : "#000000"}
-								onClick={() => {
-									document
-										.getElementById("searchBox")
-										.setAttribute("class", "hidden");
-								}}
-							/>
-						</div>
-						{/* Search icon svg */}
-						<div
-							className={
-								"cursor-pointer "
-							}
-							onClick={() => {
-								if (window.innerWidth < 640) {
-									document
-										.getElementById("searchBox")
-										.setAttribute(
-											"class",
-											"block flex items-center justify-center gap-x-3 absolute top-[45px] right-0 cursor-pointer p-[3px] rounded-lg bg-gradient-to-r from-[#0038ff] via-[#3a86ff] to-[#6dccff]"
-										);
-								} else {
-									document
-										.getElementById("searchBox")
-										.setAttribute("class", "block");
-								}
-							}}
-						>
-							<svg
-								width="22"
-								height="21"
-								viewBox="0 0 22 21"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<circle
-									cx="8.65871"
-									cy="7.92366"
-									r="6.76271"
-									stroke="url(#paint0_linear_1148_5902)"
-									stroke-width="2"
-								/>
-								<path
-									d="M15.4214 14.6865L20.896 19.839"
-									stroke="url(#paint1_linear_1148_5902)"
-									stroke-width="2"
-									stroke-linecap="round"
-								/>
-								<defs>
-									<linearGradient
-										id="paint0_linear_1148_5902"
-										x1="6.60191"
-										y1="9.45887"
-										x2="-2.70468"
-										y2="3.4708"
-										gradientUnits="userSpaceOnUse"
-									>
-										<stop stop-color="#0038FF" />
-										<stop offset="0.526042" stop-color="#3A86FF" />
-										<stop offset="1" stop-color="#6DCCFF" />
-									</linearGradient>
-									<linearGradient
-										id="paint1_linear_1148_5902"
-										x1="17.3262"
-										y1="17.8476"
-										x2="13.6962"
-										y2="15.366"
-										gradientUnits="userSpaceOnUse"
-									>
-										<stop stop-color="#0038FF" />
-										<stop offset="0.526042" stop-color="#3A86FF" />
-										<stop offset="1" stop-color="#6DCCFF" />
-									</linearGradient>
-								</defs>
-							</svg>
-						</div>
-					</div>
-				</div>
+				
 				<div className="cursor-pointer block lg:hidden">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -189,3 +106,94 @@ const Navbar = ({ setTheme, theme }) => {
 };
 
 export default Navbar;
+// {/* <div className="bg-gradient-to-r from-[#0038ff] via-[#3a86ff] to-[#6dccff] p-[2px] text-lg rounded-lg relative">
+// 					<div className=" dark:bg-[#101010] bg-white rounded-md px-1 lg:px-3 py-0.5 flex items-center justify-center ">
+// 						<div className="hidden lg:block" id="searchBox">
+// 							<input
+// 								type="text"
+// 								placeholder="Search"
+// 								className="lg:bg-transparent dark:bg-[#101010] bg-white rounded-lg pl-2 pr-10 lg:p-0 py-1 lg:py-0 outline-none"
+// 								onChange={(e)=>setSearch(e.target.value)
+// 							}
+// 							/>
+// 							<CgClose
+// 								className="lg:hidden absolute right-[6px] top-1/2 -translate-y-1/2 bg-white dark:bg-[#101010]"
+// 								size={25}
+// 								color={theme === "dark" ? "#ffffff" : "#000000"}
+// 								onClick={() => {
+// 									document
+// 										.getElementById("searchBox")
+// 										.setAttribute("class", "hidden");
+// 								}}
+// 							/>
+// 						</div>
+// 						{/* Search icon svg */}
+// 						<div
+// 							className={
+// 								"cursor-pointer "
+// 							}
+// 							onClick={() => {
+// 								if (window.innerWidth < 640) {
+// 									document
+// 										.getElementById("searchBox")
+// 										.setAttribute(
+// 											"class",
+// 											"block flex items-center justify-center gap-x-3 absolute top-[45px] right-0 cursor-pointer p-[3px] rounded-lg bg-gradient-to-r from-[#0038ff] via-[#3a86ff] to-[#6dccff]"
+// 										);
+// 								} else {
+// 									document
+// 										.getElementById("searchBox")
+// 										.setAttribute("class", "block");
+// 								}
+// 							}}
+// 						>
+// 							<svg
+// 								width="22"
+// 								height="21"
+// 								viewBox="0 0 22 21"
+// 								fill="none"
+// 								xmlns="http://www.w3.org/2000/svg"
+// 							>
+// 								<circle
+// 									cx="8.65871"
+// 									cy="7.92366"
+// 									r="6.76271"
+// 									stroke="url(#paint0_linear_1148_5902)"
+// 									stroke-width="2"
+// 								/>
+// 								<path
+// 									d="M15.4214 14.6865L20.896 19.839"
+// 									stroke="url(#paint1_linear_1148_5902)"
+// 									stroke-width="2"
+// 									stroke-linecap="round"
+// 								/>
+// 								<defs>
+// 									<linearGradient
+// 										id="paint0_linear_1148_5902"
+// 										x1="6.60191"
+// 										y1="9.45887"
+// 										x2="-2.70468"
+// 										y2="3.4708"
+// 										gradientUnits="userSpaceOnUse"
+// 									>
+// 										<stop stop-color="#0038FF" />
+// 										<stop offset="0.526042" stop-color="#3A86FF" />
+// 										<stop offset="1" stop-color="#6DCCFF" />
+// 									</linearGradient>
+// 									<linearGradient
+// 										id="paint1_linear_1148_5902"
+// 										x1="17.3262"
+// 										y1="17.8476"
+// 										x2="13.6962"
+// 										y2="15.366"
+// 										gradientUnits="userSpaceOnUse"
+// 									>
+// 										<stop stop-color="#0038FF" />
+// 										<stop offset="0.526042" stop-color="#3A86FF" />
+// 										<stop offset="1" stop-color="#6DCCFF" />
+// 									</linearGradient>
+// 								</defs>
+// 							</svg>
+// 						</div>
+// 					</div>
+// 				</div> */}

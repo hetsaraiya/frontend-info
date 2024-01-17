@@ -1,4 +1,6 @@
 import React from 'react'
+import BlogList from '../BlogList/BlogList'
+import list from "../BlogUpload/list.json";
 
 const MobileNavbar = () => {
 
@@ -15,10 +17,17 @@ const MobileNavbar = () => {
 	]
 
 	return (
-		<div className='w-full h-screen fixed top-0 left-full bg-white dark:bg-[#101010] px-4 py-3 block lg:hidden z-50 transition-all duration-300' id='mobileNavbar'>
+		<div className='w-full h-screen fixed top-0 left-full overflow-y-hidden bg-white dark:bg-[#101010] px-4 py-3 block lg:hidden z-50 transition-all duration-300' id='mobileNavbar'>
 			<div className='flex items-center justify-between'>
-				<a href='/'>
-					<p className='text-2xl text-black dark:text-white'>LOGO</p>
+			<a href="/" >
+				<div className="flex flex-row justify-start items-center">
+					<div className="w-40 ">
+					<img src="/static/img/Pruthateknew.png" alt="" />
+					</div>
+					<div>
+					<p className="top-1  relative dark:text-white text-[22px] font-Poppins ">.info</p>
+					</div>
+					</div>
 				</a>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -37,9 +46,14 @@ const MobileNavbar = () => {
 			</div>
 			<div className='w-full h-full flex items-center justify-center'>
 				<ul className='flex flex-col gap-5'>
-					{navbarLinks.map((item, index) => (
-						<a href={item[1]}>
-							<li key={index} className="text-subtitle cursor-pointer relative w-fit after:content-[''] after:w-0 after:h-[2px] after:absolute after:-bottom-[5px] after:left-0 after:bg-gradient-to-r after:from-[#f05225] after:to-[#eea820] after:transition-all after:duration-300 hover:after:w-full">{item[0]}</li>
+				{list.map((item, index) => (
+						<a href={item["select"]}>
+							<li
+								key={index}
+								className="text-[16px] cursor-pointer relative after:content-[''] after:w-0 after:h-[2px] after:absolute after:-bottom-[5px] after:left-0 after:bg-gradient-to-r after:from-[#f05225] after:to-[#eea820] after:transition-all after:duration-300 hover:after:w-full"
+							>
+								{item["select"]}
+							</li>
 						</a>
 					))}
 				</ul>

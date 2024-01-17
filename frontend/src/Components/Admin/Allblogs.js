@@ -1,20 +1,26 @@
-import React ,{ useEffect, useState } from 'react';
 import data from "../BlogList/data.json"
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-
 function Allblogs(props) {
-	const [blogData, setblogData] = useState([]);
-	useEffect(()=>{
-		axios
-			.get(process.env.REACT_APP_SERVER + "/blogs/bloghome")
-			.then((res) => {
-				setblogData(res);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+	const [blogData, setBlogData] = useState([]);
 
-	}, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          process.env.REACT_APP_SERVER + "/admin_use/allblogs"
+        );
+        const fetchedBlogData = response.data;
+        console.log(fetchedBlogData)
+        setBlogData(fetchedBlogData);
+      } catch (error) {
+        console.error("Error fetching blog data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
 
 	return (
 		<>
@@ -22,15 +28,15 @@ function Allblogs(props) {
 				<p className="text-2xl font-extrabold uppercase dark:bg-white bg-black bg-clip-text text-transparent bg-gradient-to-r from-[#ffe32d] to-[#ff6d2d] transition-all duration-300 w-fit mx-auto">All Blogs</p>
 			</div>
 			<div className="my-5 mb-10 flex flex-row flex-wrap items-center justify-center gap-x-10 gap-y-5 lg:px-20 px-10 w-full">
-				{data.map((record) => {
+				{Object.keys(blogData).map((id,index) => {
 					return (
 						<div
-							key={record.id}
+							key={id}
 							className={
 								"hover:shadow-none hover:border-[#F05225] border-transparent border-[1px] hover:border-[1px] transition-all duration-500 ease-in-out hover:bg-gradient-to-b rounded-lg cursor-pointer relative group overflow-hidden " +
 								(props.theme === "light" ? "glassmorphism-2" : "glassmorphism")
 							}
-							id={"allBlog-" + record.id}
+							id={"allBlog-" + id}
 							data-aos="fade-up"
 							data-aos-duration="600"
 							data-aos-delay="0"
@@ -55,10 +61,10 @@ function Allblogs(props) {
 									className="bi bi-trash"
 									viewBox="0 0 16 16"
 									onClick={() => {
-										document.getElementById("allBlog-" + record.id).style.transform = "scale(0.1)"
-										document.getElementById("allBlog-" + record.id).style.opacity = "0"
+										document.getElementById("allBlog-" + id).style.transform = "scale(0.1)"
+										document.getElementById("allBlog-" + id).style.opacity = "0"
 										setTimeout(() => {
-											document.getElementById("allBlog-" + record.id).classList.add("hidden")
+											document.getElementById("allBlog-" + id).classList.add("hidden")
 										}, 300)
 									}}
 								>
@@ -74,10 +80,10 @@ function Allblogs(props) {
 									className="bi bi-x-lg"
 									viewBox="0 0 16 16"
 									onClick={() => {
-										document.getElementById("allBlog-" + record.id).style.transform = "scale(0.1)"
-										document.getElementById("allBlog-" + record.id).style.opacity = "0"
+										document.getElementById("allBlog-" + id).style.transform = "scale(0.1)"
+										document.getElementById("allBlog-" + id).style.opacity = "0"
 										setTimeout(() => {
-											document.getElementById("allBlog-" + record.id).classList.add("hidden")
+											document.getElementById("allBlog-" + id).classList.add("hidden")
 										}, 300)
 									}}
 								>
@@ -85,41 +91,43 @@ function Allblogs(props) {
 								</svg>
 							</div>
 							<div class="w-[326px] h-fit p-6 rounded-md">
-								<div className="flex flex-row justify-center gap-x-5 items-center">
+								<div className="flex flex-row justify-between  items-center">
+								<div className="flex flex-row justify-start items-center space-x-3">
 									<img
-										className="w-[10%] h-[10%] rounded-full "
-										src={record.proimage}
+										className="w-[15%] h-[15%] dark:border-[2px] dark:bg-white  border-[2px] object-cover border-black rounded-full dark:border-white "
+										src="/static/img/UserProfile.png"
 										alt="owner"
 									/>
-									<div className=" font-normal text-[13px] ">
-										<h1>{record.name}</h1>
+									<div className=" font-normal text-[13px] capitalize ">
+										<h1>{blogData[index]["fields"]["author"]}</h1>
+										</div>
 									</div>
-									<div className="border-[1px] rounded-full py-1 px-3">
+									<div className="border-[1px] rounded-full py-1 whitespace-nowrap px-2">
 										<h5 className=" flex items-center font-normal lg:text-description text-[10px]">
-											{record.date}
+											{blogData[index]["fields"]["timeStamp"]}
 										</h5>
 									</div>
 								</div>
 								<div className="my-6 h-fit overflow-hidden rounded-lg">
 									<img
 										className="w-full h-[50%] mb-1 rounded-md transition duration-300 ease-in-out hover:scale-105"
-										src={record.image}
+										src={process.env.REACT_APP_SERVER + "/media/" + blogData[index]["fields"]["thumbnail"]}
 										alt="Bonnie "
 									/>
 								</div>
 								<div className="">
 									<h1 className="p-1 text-subtitle not-italic font-medium capitalize">
-										{record.title}
+										{blogData[index]["fields"]["title"]}
 									</h1>
 								</div>
 								<div className="">
 									<p className="p-1 text-description not-italic font-light capitalize">
-										{record.disc}
+									{blogData[index]["fields"]["chead0"].slice(0, 100)}...
 									</p>
 								</div>
-								<div className="text-gradient">
+								<a href={`blogs\?id=${blogData["pk"]}`} className=" text-orange-400 font-semibold text-end ">
 									<h1 className="text-subtitle">Read More</h1>
-								</div>
+								</a>
 							</div>
 						</div>
 					);

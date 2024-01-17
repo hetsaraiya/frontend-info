@@ -21,7 +21,7 @@ class Post(models.Model):
     title=models.CharField(max_length=255)
     author=models.CharField(max_length=14)
     slug=models.CharField(max_length=130)
-    timeStamp=models.DateTimeField(blank=True)
+    timeStamp=models.DateField(blank=True)
     head0 = models.CharField(max_length=500, default="")
     chead0 = models.CharField(max_length=5000, default="")
     cimages0 = models.ImageField(upload_to='blog/images', default="")
@@ -34,6 +34,7 @@ class Post(models.Model):
     thumbnail = models.ImageField(upload_to='blog/images', default="")
     status = models.CharField(max_length=50)
     content =models.CharField(max_length=50000,null=True)
+    isDeleted = models.BooleanField(default=False)
     
 
 

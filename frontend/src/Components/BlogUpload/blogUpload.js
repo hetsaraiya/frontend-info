@@ -5,24 +5,43 @@ import "./blogUpload.css";
 import Footer from "../Comon/Footer";
 import { AiOutlineCaretDown, AiOutlineCaretUp } from "react-icons/ai";
 import list from "./list.json"
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function BlogUpload(props) {
+	
+	const navigate = useNavigate()
 	const [title, setTitle] = useState("");
 	const [selectedOption, setSelectedOption] = useState(null);
 	const [isSelectedTypeOfBlog, setIsSelectedTypeOfBlog] = useState("Select")
 	const [heading1, setheading1] = useState("");
 	const [heading2, setheading2] = useState("");
+	const [thumbnail, setthumbnail] = useState("");
+	const [category, setcategory] = useState("");
 	const [heading3, setheading3] = useState("");
 	const [content1, setcontent1] = useState("");
 	const [content2, setcontent2] = useState("");
 	const [content3, setcontent3] = useState("");
+	const [blogImage1, setBlogImage1] = useState(null);
+	const [blogImage2, setBlogImage2] = useState(null);
+	const [blogImage3, setBlogImage3] = useState(null);
 	const [isOpen, setIsOpen] = useState(false);
 	const [selects, setselects] = useState();
 
+
+
 	useEffect(() => {
 		document.title = "Upload Blog";
+		const username = localStorage.getItem("username");
+
+		if(username === null || username === ""){
+			navigate('/login');
+		}
 	});
+
+
+
+
 	const options = [
 		{ value: "Electronic", label: "Electronic" },
 		{ value: "News", label: "News" },
@@ -36,24 +55,53 @@ function BlogUpload(props) {
 	};
 	const showValues = (e) => {
 		e.preventDefault();
-		console.log({
-			title: title,
-			heading1: heading1,
-			heading2: heading2,
-			heading3: heading3,
-			content1: content1,
-			content2: content2,
-			content3: content3,
-			blogType: selectedOption,
-		});
-		setSelectedOption(null);
-		setTitle("");
-		setcontent1("");
-		setcontent2("");
-		setcontent3("");
-		setheading1("");
-		setheading2("");
-		setheading3("");
+		console.log("function")
+		const title = document.getElementById("blog-title").value
+		const thumbnail = document.getElementById("thumbnailImageName").files[0]
+		const head0 = document.getElementById("heading1").value
+		const chead0 = document.getElementById("content1").value
+		const cimages0 = document.getElementById("blogImage1").files[0]
+		const head1 = document.getElementById("heading2").value
+		const chead1 = document.getElementById("content2").value
+		const cimages1 = document.getElementById("blogImage2").files[0]
+		const head2 = document.getElementById("heading3").value
+		const chead2 = document.getElementById("content3").value
+		const cimages2 = document.getElementById("blogImage3").files[0]
+		const category = selects ? selects.value : null
+		const formData = new FormData();
+		console.log(title)
+
+		formData.append("title", title)
+		formData.append("thumbnail", thumbnail)
+		formData.append("head0", head0)
+		formData.append("chead0", chead0)
+		formData.append("cimages0", cimages0)
+		formData.append("head1", head1)
+		formData.append("chead1", chead1)
+		formData.append("cimages1", cimages1)
+		formData.append("head2", head2)
+		formData.append("chead2", chead2)
+		formData.append("cimages2", cimages2)
+		formData.append("author", localStorage.getItem('username'))
+		formData.append("category", category)
+		axios({
+			url: process.env.REACT_APP_SERVER + "/blog_upload/upload",
+			method: "POST",
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+			data: formData,
+		})
+			.then((res) => {
+				//setLoading("hidden");
+				alert(res["data"]["msg"]);
+				window.location.reload();
+			})
+			.catch((err) => {
+				//setLoading("hidden");
+				alert(err);
+			});
+
 	};
 	return (
 		<>
@@ -114,9 +162,11 @@ function BlogUpload(props) {
 								{isOpen && (
 									<div value={selects} onChange={e => setselects(e.target.value)} className="bg-white dark:bg-[#101010] absolute top-9 flex flex-col items-start rounded-lg p-2 w-full z-50">
 										{list.map((item, i) => (
-											<div className="flex w-full p-4 justify-between dark:hover:bg-black hover:bg-slate-100 cursor-pointer rounded-lg" onClick={() => {
-												setIsSelectedTypeOfBlog(item.select)
-												setIsOpen((prev) => !prev)
+											<div className="flex w-full p-4 justify-between dark:hover:bg-black hover:bg-slate-100 cursor-pointer rounded-lg" onClick={() => {{
+													setIsSelectedTypeOfBlog(item.select);
+													setIsOpen((prev) => !prev);
+													setcategory(item.select);
+												}
 											}}>
 												<h3 className="font-bold">{item.select}</h3>
 											</div>
@@ -271,12 +321,14 @@ function BlogUpload(props) {
 							>
 								Reset
 							</button>
-							<button
-								type="submit"
-								className="last:ml-[2vw] lg:text-[1.1vw] bg-gradient-to-r from-[#F05225] to-[#EEA820]  text-[white] transition-[500ms] px-[2vw] py-[0.6vw] rounded-[7px]"
-							>
-								Submit
-							</button>
+							<a href="/">
+								<button
+									type="submit"
+									className="last:ml-[2vw] lg:text-[1.1vw] bg-gradient-to-r from-[#F05225] to-[#EEA820]  text-[white] transition-[500ms] px-[2vw] py-[0.6vw] rounded-[7px]"
+								>
+									Submit
+								</button>
+							</a>
 						</div>
 					</form>
 				</div>

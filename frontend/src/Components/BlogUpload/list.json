@@ -1,17 +1,26 @@
 [
     {
-        "select": "Electronic"
-    },
-    {
-        "select": "News"
-    },
-    {
-        "select": "Games"
-    },
-    {
-        "select": "Reviews"
-    },
-    {
         "select": "Cars"
+    },
+    {
+        "select": "Education"
+    },
+    {
+        "select": "Money"
+    },
+    {
+        "select": "News & Culture"
+    },
+    {
+        "select": "Others"
+    },
+    {
+        "select": "Science"
+    },
+    {
+        "select": "Tech"
+    },
+    {
+        "select": "Wellness"
     }
 ]

@@ -3,7 +3,7 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('bloghome/', views.bloghome, name="bloghome"),
-    path('<str:slug>', views.blogPost, name="blogPost"),
-    
+    path('', views.bloghome, name="bloghome"),
+    path('blogpost/', views.blogPost, name="blogPost"),
+    path('deletedposts/', views.isDeletedCheck, name="deletedposts")
 ]

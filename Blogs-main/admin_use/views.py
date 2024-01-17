@@ -1,15 +1,17 @@
 from asyncio.windows_events import NULL
+import json
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from blog.models import Post
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.core import serializers
 from django.core.mail import EmailMessage, send_mail
 from blogpost import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-
+from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 #from . tokens import generate_token
@@ -19,13 +21,20 @@ from django.views.decorators.csrf import csrf_exempt,csrf_protect
 def admin_home(request):
       allPosts = Post.objects.filter(status='Waiting').order_by('-timeStamp') 
       context = {'allPosts' : allPosts}
-      return render(request,'admin_use/home.html',context)
+      data = serializers.serialize("json", allPosts)
+      print(data)
+      return HttpResponse(data, content_type="application/json")
 
 @csrf_exempt
 def allblogs(request):
-      allPosts = Post.objects.all().order_by('-timeStamp') 
-      context = {'allPosts' : allPosts}
-      return render(request,'admin_use/allblogs.html',context)
+      if request.method == 'GET':
+            allPosts = Post.objects.filter(status='Approved').order_by('-timeStamp') 
+            # allPosts = Post.objects.all().order_by('-timeStamp') 
+            context = {'allPosts' : allPosts}
+            # return render(request,'admin_use/allblogs.html',context)
+            data = serializers.serialize("json", allPosts)
+            print(data)
+            return HttpResponse(data, content_type="application/json")
 
 
 @csrf_exempt
@@ -100,12 +109,12 @@ def blog_decline(request , slug):
 @csrf_exempt
 def signup(request):
     if request.method == "POST":
-        username = request.POST['username']
-        fname = request.POST['fname']
-        lname = request.POST['lname']
-        email = request.POST['email']
-        pass1 = request.POST['pass1']
-        pass2 = request.POST['pass2']
+        username = request.POST.get('username')
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        email = request.POST.get('email')
+        pass1 = request.POST.get('pass1')
+        pass2 = request.POST.get('pass2')
         
         if User.objects.filter(username=username):
             messages.error(request, "Username already exist! Please try some other username.")
@@ -139,10 +148,10 @@ def signup(request):
         
         
   
-        return render(request,'admin_use/createuser.html') 
+        return HttpResponse(json.dumps({"msg": " your details updated successfully."}),content_type="application/json",)
         
         
-    return render(request,'admin_use/createuser.html') 
+    return HttpResponse(json.dumps({"msg": " your details updated successfully."}),content_type="application/json",)
 
 
 

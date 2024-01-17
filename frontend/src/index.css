@@ -61,7 +61,9 @@ code {
 .square {
 	animation: rotate 10s linear infinite;
 }
-
+.square-2 {
+	animation: rotate-1 10s linear infinite;
+  }
 @keyframes rotate {
 	from {
 		transform: rotate(0deg);
@@ -71,6 +73,29 @@ code {
 		transform: rotate(360deg);
 	}
 }
+
+@keyframes rotate-1 {
+	from {
+	  transform: rotate(360deg);
+	}
+  
+	to {
+	  transform: rotate(0deg);
+	}
+  }
+/* .square1{
+	animation: rotate1 10s linear infinite;
+
+}
+@keyframes rotate1 {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(90deg);
+	}
+} */
 
 .glassmorphism {
 	background: #3a3a3a33;
